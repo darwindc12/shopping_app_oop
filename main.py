@@ -3,6 +3,7 @@ from fpdf import FPDF
 
 df = pandas.read_csv("articles.csv", dtype={"id": str})
 
+
 class Article:
 
     def __init__(self, article_number):
@@ -11,13 +12,14 @@ class Article:
         self.price = df.loc[df['id'] == self.book_id, 'price'].squeeze()
 
     def availability(self):
-        check_stock =
+        check_stock = df.loc[df['id'] == self.book_id, 'in stock'].squeeze()
+        return check_stock
 
 
 class Receipt:
 
-    def __init__(self, article):
-        self.article = article
+    def __init__(self, article_object):
+        self.article = article_object
 
     def generate_pdf(self):
 
@@ -41,7 +43,7 @@ if __name__ == "__main__":
     article_id = input("Choose an article to buy: ")
     article = Article(article_id)
     if article.availability():
-        pdf_receipt = Receipt(article_id)
+        pdf_receipt = Receipt(article_object=article)
         pdf_receipt.generate_pdf()
     else:
         print("No such article in the stock")
